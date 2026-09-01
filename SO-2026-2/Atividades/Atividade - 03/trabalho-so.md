@@ -94,12 +94,12 @@ Campos obrigatórios mínimos: `pid`, `estado`, `registradores`, `pc`, `priorida
 
 | Transição | Evento disparador | Ação |
 | :--- | :--- | :--- |
-| **0** | (criação -> PRONTO) | `fork` simulado via leitura do arquivo de tarefas. | Aloca PCB, atribui PID, define `pc = 0` e `estado = PRONTO`, insere na estrutura do escalonador, registra `tempo_chegada`. |
-| **1** | (EM_EXECUCAO -> BLOQUEADO) | Processo esgota surto de CPU e solicita E/S. | Salva contexto no PCB; insere no **final** da fila do dispositivo de E/S configurando o `surto_es_restante`; invoca escalonador para liberar a CPU. |
-| **2** | (EM_EXECUCAO -> PRONTO) | Preempção (sinalizada internamente por `notificar_tick()`). | Salva contexto; insere processo na estrutura de prontos conforme a política do escalonador ativo; invoca escalonador. |
-| **3** | (PRONTO -> EM_EXECUCAO) | Escalonador seleciona processo. | **CPU consome `TEMPO_TROCA_CONTEXTO` ticks para o despacho.** Restaura registradores/PC; `quantum_restante` (se aplicável) é recarregado. |
-| **4** | (BLOQUEADO -> PRONTO) | E/S concluída: `surto_es_restante` do processo na **cabeça** da fila de E/S chega a 0. | Processo é movido para PRONTO. O escalonador é notificado. O próximo processo bloqueado inicia o uso do dispositivo. |
-| **5** | (EM_EXECUCAO -> TERMINADO) | Chamada `exit`: surto final da sequência do processo é concluído. | Registra `tempo_termino`; libera CPU; invoca escalonador. O PCB permanece na tabela apenas para estatísticas. |
+| **0** (criação -> PRONTO) | `fork` simulado via leitura do arquivo de tarefas. | Aloca PCB, atribui PID, define `pc = 0` e `estado = PRONTO`, insere na estrutura do escalonador, registra `tempo_chegada`. |
+| **1** (EM_EXECUCAO -> BLOQUEADO) | Processo esgota surto de CPU e solicita E/S. | Salva contexto no PCB; insere no **final** da fila do dispositivo de E/S configurando o `surto_es_restante`; invoca escalonador para liberar a CPU. |
+| **2** (EM_EXECUCAO -> PRONTO) | Preempção (sinalizada internamente por `notificar_tick()`). | Salva contexto; insere processo na estrutura de prontos conforme a política do escalonador ativo; invoca escalonador. |
+| **3** (PRONTO -> EM_EXECUCAO) | Escalonador seleciona processo. | **CPU consome `TEMPO_TROCA_CONTEXTO` ticks para o despacho.** Restaura registradores/PC; `quantum_restante` (se aplicável) é recarregado. |
+| **4** (BLOQUEADO -> PRONTO) | E/S concluída: `surto_es_restante` do processo na **cabeça** da fila de E/S chega a 0. | Processo é movido para PRONTO. O escalonador é notificado. O próximo processo bloqueado inicia o uso do dispositivo. |
+| **5** (EM_EXECUCAO -> TERMINADO) | Chamada `exit`: surto final da sequência do processo é concluído. | Registra `tempo_termino`; libera CPU; invoca escalonador. O PCB permanece na tabela apenas para estatísticas. |
 
 ### 3.3 Regras de Consistência
 * Toda transição deve ser registrada em log no formato: `tick`, `pid`, `estado_anterior`, `estado_novo`, `evento_causador`.
