@@ -48,6 +48,10 @@ class BankersAlgorithm:
 
     def display_state(self):
         """Exibe o estado atual do sistema de forma estruturada."""
+        print("=======================================================================")
+        print("Aluna: Júlia Marinho Bomfim")
+        print("Atividade 07 - Algoritmo dos Banqueiros")
+        print("=======================================================================")
         print("=" * 70)
         print("ESTADO ATUAL DO SISTEMA")
         print("=" * 70)
@@ -75,6 +79,10 @@ class BankersAlgorithm:
         safe_sequence = []
 
         if verbose:
+            print("=======================================================================")
+            print("Aluna: Júlia Marinho Bomfim")
+            print("Atividade 07 - Algoritmo dos Banqueiros")
+            print("=======================================================================")
             print("\n[VERIFICAÇÃO DE ESTADO SEGURO]")
             print(f"Vetor de Trabalho Inicial (Work/Disponível): {work}\n")
 
@@ -216,8 +224,4 @@ def run_demo():
     banker.display_state()
 
 if __name__ == "__main__":
-    print("=======================================================================")
-    print("Aluna: Júlia Marinho Bomfim")
-    print("Atividade 07 - Algoritmo dos Banqueiros")
-    print("=======================================================================")
     run_demo()
